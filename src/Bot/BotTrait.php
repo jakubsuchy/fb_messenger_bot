@@ -44,6 +44,7 @@ trait BotTrait {
     foreach ($incomingData as $uid => $incomingMessages) {
       foreach ($incomingMessages as $incomingMessage) {
         $conversation = $this->conversationFactory->getConversation($uid);
+        $this->workflow->buildSteps($conversation, $incomingMessage);
         $response = $this->workflow->processConversation($conversation, $incomingMessage);
         $this->fbService->sendMessages($response, $uid);
       }
