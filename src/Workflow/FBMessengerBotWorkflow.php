@@ -65,7 +65,6 @@ class FBMessengerBotWorkflow implements BotWorkflowInterface {
   public function __construct(ConfigFactoryInterface $configFactory, ConversationFactoryInterface $conversationFactory, TranslationInterface $stringTranslation, FacebookService $fbService, LoggerInterface $logger) {
     $this->config = $configFactory->get('fb_messenger_bot.settings');
     $this->conversationFactory = $conversationFactory;
-    $this->setSteps($this->buildSteps());
     $this->stringTranslation = $stringTranslation;
     $this->fbService = $fbService;
     $this->logger = $logger;
@@ -74,11 +73,15 @@ class FBMessengerBotWorkflow implements BotWorkflowInterface {
   /**
    * Helper function to build out steps.
    *
+   * @param Conversation $conversation
+   *   The conversation object.
+   * @param BotWorkflowInterface $receivedMessage
+   *  The message received from Facebook.
    * @return array (BotWorkflowStepInterface)
    *   An array of BotWorkflowStepInterfaces.
    *
    */
-  protected function buildSteps() {
+  protected function buildSteps($conversation, $receivedMessage) {
     $stepList = array();
 
     // Set step welcoming user to conversation.
