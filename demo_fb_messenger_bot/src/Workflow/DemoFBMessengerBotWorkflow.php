@@ -36,17 +36,20 @@ class DemoFBMessengerBotWorkflow extends FBMessengerBotWorkflow {
    */
   public function __construct(ConfigFactoryInterface $configFactory, ConversationFactoryInterface $conversationFactory, TranslationInterface $stringTranslation, FacebookService $fbService, LoggerInterface $logger) {
     parent::__construct($configFactory, $conversationFactory, $stringTranslation, $fbService, $logger);
-    $this->setSteps($this->buildSteps());
   }
 
   /**
    * Helper function to build out steps.
    *
+   * @param Conversation $conversation
+   *   The conversation object.
+   * @param BotWorkflowInterface $receivedMessage
+   *  The message received from Facebook.
    * @return array (BotWorkflowStepInterface)
    *   An array of BotWorkflowStepInterfaces.
    *
    */
-  protected function buildSteps() {
+  protected function buildSteps($conversation, $receivedMessage) {
     $stepList = array();
 
     // Set step welcoming user to conversation.
